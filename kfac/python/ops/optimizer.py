@@ -590,6 +590,8 @@ class KfacOptimizer(tf.train.GradientDescentOptimizer):
       A list of tuple (assign_op ,var) where `assign_op` assigns the update
       steps to `var`.
     """
+    # This filters out any "hyperparameter" variables which are not part of the usual loss
+    grads_and_vars = [(grad, var) for grad, var in grads_and_vars if grad is not None]
 
     if self._momentum_type == "regular":
       # Compute "preconditioned" gradient.
